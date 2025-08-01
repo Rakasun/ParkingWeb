@@ -1,6 +1,7 @@
 package com.parking.backend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="usuarios")
@@ -10,15 +11,19 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "El nombre de usuario no puede estar vacío")
     @Column(nullable = false, unique = true)
     private String username;
 
+    @NotBlank(message = "La contraseña no puede estar vacía")
     @Column(nullable = false)
     private String password;
 
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Column(nullable = false)
     private String nombre;
 
- {"id":4,"username":"usuario2","password":"1234","nombre":"Pedro"   public Integer getId() { return id; }
+    public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
     public String getUsername() { return username; }
