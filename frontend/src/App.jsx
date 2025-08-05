@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import * as api from './api';
+import './App.css';
 
 function App() {
   const [view, setView] = useState('login'); // 'login' o 'register'
@@ -13,13 +15,7 @@ function App() {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch('http://localhost:8080/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: form.username, password: form.password })
-      });
-      if (!res.ok) throw new Error('Credenciales incorrectas frontend');
-      // Aquí podrías guardar el token o redirigir
+      await api.login(form.username, form.password); // Usando api.login
       alert('¡Login exitoso!');
     } catch (err) {
       setError(err.message);
@@ -30,12 +26,7 @@ function App() {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch('http://localhost:8080/api/usuarios', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form)
-      });
-      if (!res.ok) throw new Error('Error al registrar usuario');
+      await api.register(form); // Usando api.register
       alert('¡Usuario registrado!');
       setView('login');
     } catch (err) {

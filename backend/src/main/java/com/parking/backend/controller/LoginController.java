@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.parking.backend.repository.UsuarioRepository;
 import com.parking.backend.model.Usuario;
+import java.util.Map;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api")
@@ -14,6 +16,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody Usuario loginData) {
+        System.out.println("Intentando login: " + loginData.getUsername());
         Usuario usuario = usuarioRepository.findByUsername(loginData.getUsername());
         Map<String, Object> response = new HashMap<>();
         if (usuario == null || !usuario.getPassword().equals(loginData.getPassword())) {
