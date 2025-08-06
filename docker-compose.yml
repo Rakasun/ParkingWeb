@@ -11,7 +11,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
   backend:
     build: ./backend
     container_name: parkingweb-backend
@@ -31,6 +31,8 @@ services:
       - "3000:80"
     depends_on:
       - backend
+    volumes:
+      - ./frontend:/app
       
 volumes:
   mariadb_data:

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.parking.backend.repository.UsuarioRepository;
 import com.parking.backend.model.Usuario;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -15,18 +17,13 @@ public class LoginController {
     private UsuarioRepository usuarioRepository;
 
     @PostMapping("/login")
-    public Map<String, Object> login(@RequestBody Usuario loginData) {
-        System.out.println("Intentando login: " + loginData.getUsername());
+    public ResponseEntity<?> login(@RequestBody Usuario loginData) {
         Usuario usuario = usuarioRepository.findByUsername(loginData.getUsername());
-        Map<String, Object> response = new HashMap<>();
         if (usuario == null || !usuario.getPassword().equals(loginData.getPassword())) {
-            response.put("success", false);
-            response.put("message", "Credenciales incorrectas");
-            return response;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(Map.of("error", "Credenciales incorrectas"));
         }
-        response.put("success", true);
-        response.put("username", usuario.getUsername());
-        response.put("nombre", usuario.getNombre());
-        return response;
+        // Puedes devolver el usuario completo o solo los datos necesarios
+        return ResponseEntity.ok(usuario);
     }
 }

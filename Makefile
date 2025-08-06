@@ -28,3 +28,7 @@ frontend-restart:
 	docker-compose stop frontend
 	docker-compose build frontend
 	docker-compose up -d frontend
+
+frontend-cache:
+	docker-compose build --no-cache frontend
+	docker-compose up -d --force-recreate frontend
