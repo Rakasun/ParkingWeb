@@ -23,7 +23,7 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(Map.of("error", "Credenciales incorrectas"));
         }
-        // Puedes devolver el usuario completo o solo los datos necesarios
+
         return ResponseEntity.ok(usuario);
     }
 }

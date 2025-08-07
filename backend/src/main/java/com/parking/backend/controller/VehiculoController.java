@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import com.parking.backend.repository.UsuarioRepository;
 import com.parking.backend.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.parking.backend.repository.EstanciaRepository;
+import com.parking.backend.dto.EstanciaDTO;
 
 import java.util.List;
 
@@ -23,6 +25,9 @@ public class VehiculoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private EstanciaRepository estanciaRepository;
+
     @GetMapping
     public List<VehiculoDTO> getAllVehiculos() {
         return vehiculoRepository.findAll().stream()
@@ -35,6 +40,19 @@ public class VehiculoController {
         Vehiculo v = vehiculoRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Vehiculo no encontrado con id " + id));
         return new VehiculoDTO(v.getId(), v.getMatricula(), v.getUsuario().getId());
+    }
+
+    @GetMapping("/{id}/estancias")
+    public List<EstanciaDTO> getEstanciasByVehiculo(@PathVariable Integer id) {
+        return estanciaRepository.findAll().stream()
+            .filter(e -> e.getVehiculo().getId().equals(id))
+            .map(e -> new EstanciaDTO(
+                e.getId(),
+                e.getVehiculo().getId(),
+                e.getHoraEntrada(),
+                e.getHoraSalida(),
+                e.getHorasPagadas()))
+            .toList();
     }
 
     @PostMapping

@@ -18,17 +18,8 @@ restart:
 logs:
 	docker-compose logs -f
 
-frontend-build:
-	docker-compose build frontend
-
-frontend-up:
-	docker-compose up -d frontend
-
-frontend-restart:
-	docker-compose stop frontend
-	docker-compose build frontend
-	docker-compose up -d frontend
-
-frontend-cache:
-	docker-compose build --no-cache frontend
-	docker-compose up -d --force-recreate frontend
+reset:
+	cd backend && ./mvnw clean package && cd ..
+	docker-compose down
+	docker-compose build --no-cache
+	docker-compose up -d

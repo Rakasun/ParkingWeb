@@ -26,11 +26,10 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        String mensaje = "El nombre de usuario ya existe";
-        // Busca si la causa es ConstraintViolationException
+        String mensaje = "Ya existe";
         Throwable causa = ex.getCause();
         if (causa != null && causa.getMessage() != null && causa.getMessage().toLowerCase().contains("unique")) {
-            mensaje = "El nombre de usuario ya existe";
+            mensaje = "Ya existe";
         }
         ErrorResponse error = new ErrorResponse(mensaje, ex.getMessage());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);

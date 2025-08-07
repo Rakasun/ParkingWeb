@@ -19,7 +19,6 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-/*     @NotBlank(message = "El nombre no puede estar vacío") */
     @Column(nullable = true)
     private String nombre;
 
